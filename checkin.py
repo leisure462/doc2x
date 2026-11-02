@@ -112,7 +112,9 @@ class Doc2XClient:
             resp = self.session.get(url, timeout=15)
             data = resp.json()
             if resp.status_code == 200 and data.get("code") == "success":
-                dates = data.get("data", {}).get("checkin_dates", [])
+                dates = data.get("data", {}).get("checkin_dates")
+                if not isinstance(dates, list):
+                    dates = []
                 return True, dates
             return False, []
         except Exception:
